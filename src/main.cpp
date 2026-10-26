@@ -159,6 +159,8 @@ void applyPitch() {
   granularR.setSpeed(ratio);
 }
 
+// TODO: clean + generalize
+
 // SD init function
 void loadFilesFromSD() {
   root = SD.open("/");
