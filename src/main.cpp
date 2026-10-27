@@ -1,9 +1,4 @@
-#include "core_pins.h"
-#include <Arduino.h>
-#include <SD.h>
-#include <Audio.h>
-#include <Encoder.h>
-#include <LiquidCrystal_I2C.h>
+#include "header.hpp"
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
@@ -85,7 +80,6 @@ bool lastSwitchButtonState = HIGH;
 unsigned long lastSwitchDebounceTime = 0;
 bool lastSelectButtonState = HIGH;
 unsigned long lastSelectDebounceTime = 0;
-unsigned long debounceDelay = 50;
 bool switchState = HIGH;
 bool selectState = HIGH;
 
@@ -126,24 +120,6 @@ int16_t granularMemoryR[GRANULAR_MEMORY_SIZE];
 
 int pitchSteps = 0;   // semitones, limited to -12..+12
 
-struct DebouncedButton {
-  int pin;
-  bool lastReading;
-  bool stable;
-  unsigned long changedAt;
-
-  DebouncedButton(int p) : pin(p), lastReading(HIGH), stable(HIGH), changedAt(0) {}
-
-  bool pressed() {   // true once per press
-    bool r = digitalRead(pin);
-    if (r != lastReading) { changedAt = millis(); lastReading = r; }
-    if ((millis() - changedAt) > debounceDelay && r != stable) {
-      stable = r;
-      return stable == LOW;
-    }
-    return false;
-  }
-};
 
 DebouncedButton pitchUpBtn(pitch_up);
 DebouncedButton pitchDownBtn(pitch_down);
@@ -282,7 +258,7 @@ void loop() {
   if (switchRead != lastSwitchButtonState) {
     lastSwitchDebounceTime = millis();
   }
-  if ((millis() - lastSelectDebounceTime) > debounceDelay) {
+  if ((millis() - lastSelectDebounceTime) > DEBOUNCE_DELAY_MS) {
     if (switchRead == LOW && lastSwitchButtonState == HIGH) {
       if (currentUIState == STATE_SYNTH) {
         currentUIState = STATE_SD_MENU;
@@ -304,7 +280,7 @@ void loop() {
   if (selectRead != lastSelectButtonState) {
     lastSelectDebounceTime = millis();
   }
-  if ((millis() - lastSelectDebounceTime) > debounceDelay && selectRead != selectState) {
+  if ((millis() - lastSelectDebounceTime) > DEBOUNCE_DELAY_MS && selectRead != selectState) {
     selectState = selectRead;
     if (selectState == LOW) {
       if (currentUIState == STATE_SD_MENU && fileCount > 0) {

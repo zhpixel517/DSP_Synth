@@ -1,0 +1,1 @@
+#define DEBOUNCE_DELAY_MS 50
