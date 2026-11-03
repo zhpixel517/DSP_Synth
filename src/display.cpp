@@ -30,7 +30,7 @@ void displayInit() {
   lv_display_set_buffers(disp, buf1, buf2, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
   lv_obj_t * screen = lv_screen_active();
-  lv_obj_set_style_bg_color(screen, lv_color_hex(0xFF0000), 0);
+  lv_obj_set_style_bg_color(screen, lv_color_white(), 0);
 
   label = lv_label_create(screen);  
   volumeBar = lv_bar_create(screen);

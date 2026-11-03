@@ -1,3 +1,4 @@
+#include "config.hpp"
 #include "header.hpp"
 #include "audio_graph.hpp"
 
@@ -86,8 +87,15 @@ void audioInit() {
   rightMixer1.gain(0, gainSetting); rightMixer1.gain(1, gainSetting); rightMixer1.gain(2, gainSetting); rightMixer1.gain(3, gainSetting);
   rightMixer2.gain(0, gainSetting); rightMixer2.gain(1, gainSetting); rightMixer2.gain(2, gainSetting); rightMixer2.gain(3, gainSetting);
 
-  masterLeft.gain(0, 0.5); masterLeft.gain(1, 0.5);
-  masterRight.gain(0, 0.5); masterRight.gain(1, 0.5);
+  leftMixer3.gain(0, gainSetting); leftMixer3.gain(1, gainSetting); leftMixer3.gain(2, gainSetting); leftMixer3.gain(3, gainSetting);
+  rightMixer3.gain(0, gainSetting); rightMixer3.gain(1, gainSetting); rightMixer3.gain(2, gainSetting); rightMixer3.gain(3, gainSetting);
+  leftMixer4.gain(0, gainSetting); leftMixer4.gain(1, 1.0);  
+  rightMixer4.gain(0, gainSetting); rightMixer4.gain(1, 1.0);
+
+  setMasterVolume(currentVolume);
+
+  masterLeft.gain(0, currentVolume); masterLeft.gain(1, currentVolume);
+  masterRight.gain(0, currentVolume); masterRight.gain(1, currentVolume);
 }
 
 
@@ -99,8 +107,10 @@ void silenceAllKeys() {
 }
 
 void setMasterVolume(float v) {
-    masterLeft.gain(0, v);  masterLeft.gain(1, v);
-    masterRight.gain(0, v); masterRight.gain(1, v);
+    for (int i = 0; i < 4; i++) {
+        masterLeft.gain(i, v);
+        masterRight.gain(i, v);
+    }
 }
 
 void setSongSpeed(float ratio) {

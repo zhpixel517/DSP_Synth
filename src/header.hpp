@@ -8,6 +8,7 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
+#include "Adafruit_NeoTrellis.h"
 
 #include "debounced_button.hpp"
 #include "config.hpp"
