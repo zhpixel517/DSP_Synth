@@ -17,7 +17,7 @@ Encoder volumeControl(encoder_A, encoder_B);
 long oldPosition = -999;
 float currentVolume = 0.5;
 
-Button_Sound buttons[NUM_KEYS] = {
+Button_Sound buttonFrequencies[NUM_KEYS] = {
   {33, 262, 0.7}, // C
   {38, 277, 0.7}, // C#
   {35, 294, 0.7}, // D
@@ -33,7 +33,6 @@ Button_Sound buttons[NUM_KEYS] = {
   {17, 523, 0.1}  // C
 };
 
-int pitchSteps = 0;
 DebouncedButton pitchUpBtn(pitch_up);
 DebouncedButton pitchDownBtn(pitch_down);
 
