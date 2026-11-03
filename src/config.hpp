@@ -58,8 +58,7 @@ extern Encoder volumeControl;
 extern long oldPosition;
 extern float currentVolume;
 
-extern Button_Sound buttons[NUM_KEYS];
-extern int pitchSteps;
+extern Button_Sound buttonFrequencies[NUM_KEYS];
 extern DebouncedButton pitchUpBtn;
 extern DebouncedButton pitchDownBtn;
 

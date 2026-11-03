@@ -1,15 +1,16 @@
 #include "header.hpp"
+#include <config.hpp>
+
+static PlayEngine playEngine = PlayEngine();
 
 void setup() {
   Serial.begin(115200);
 
   displayInit();
-  audioInit();
+  playEngine.audioInit();
 
   for (int i = 0; i < NUM_KEYS; i++) {
-    pinMode(buttons[i].pin, INPUT_PULLUP);
-    setKeyFrequency(i, buttons[i].frequency);
-    setKeyAmplitude(i, 0.0);
+    pinMode(buttonFrequencies[i].pin, INPUT_PULLUP);
   }
 
   pinMode(encoder_A, INPUT_PULLUP);
@@ -26,15 +27,8 @@ void loop() {
   displayUpdate();
   displayAll();
 
-  // Pitch up / down (affects notes and songs)
-  if (pitchUpBtn.pressed() && pitchSteps < 12) {
-    pitchSteps++;
-    applyPitch();
-  }
-  if (pitchDownBtn.pressed() && pitchSteps > -12) {
-    pitchSteps--;
-    applyPitch();
-  }
+  playEngine.handlePitchUp(&pitchUpBtn);
+  playEngine.handlePitchDown(&pitchDownBtn);
 
   // Switch between SD mode and SYNTH mode
   int switchRead = digitalRead(switch_button);
@@ -45,7 +39,7 @@ void loop() {
     if (switchRead == LOW && lastSwitchButtonState == HIGH) {
       if (currentUIState == STATE_SYNTH) {
         currentUIState = STATE_SD_MENU;
-        silenceAllKeys();
+        playEngine.silenceAllKeys();
       } else {
         currentUIState = STATE_SYNTH;
       }
@@ -66,7 +60,7 @@ void loop() {
 
         // INSERT Display Logic
 
-        playFile(filenameToPlay.c_str());
+        playEngine.playFile(filenameToPlay.c_str());
         delay(800);
       }
     }
@@ -76,10 +70,10 @@ void loop() {
   // SYNTH logic with volume control
   if (currentUIState == STATE_SYNTH) {
     for (int i = 0; i < NUM_KEYS; i++) {
-      if (digitalRead(buttons[i].pin) == LOW) {
-        setKeyAmplitude(i, buttons[i].amplitude);
+      if (digitalRead(buttonFrequencies[i].pin) == LOW) {
+        playEngine.setKeyAmplitude(i, buttonFrequencies[i].amplitude);
       } else {
-        setKeyAmplitude(i, 0.0);
+        playEngine.setKeyAmplitude(i, 0.0);
       }
     }
     long newPosition = volumeControl.read();
@@ -93,7 +87,7 @@ void loop() {
       if (currentVolume > 1.0) currentVolume = 1.0;
       if (currentVolume < 0) currentVolume = 0;
 
-      setMasterVolume(currentVolume);
+      playEngine.setMasterVolume(currentVolume);
     }
   }
   else if (currentUIState == STATE_SD_MENU) {
