@@ -1,12 +1,15 @@
+#include "buttonLogic.hpp"
 #include "header.hpp"
 #include <config.hpp>
 
 static PlayEngine playEngine = PlayEngine();
 
 void setup() {
-  basic_lighting();
-
   Serial.begin(115200);
+  
+  trellis.begin();
+  basic_lighting();
+  trellis.show();
 
   displayInit();
   playEngine.audioInit();
