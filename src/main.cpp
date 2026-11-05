@@ -4,6 +4,8 @@
 static PlayEngine playEngine = PlayEngine();
 
 void setup() {
+  basic_lighting();
+
   Serial.begin(115200);
 
   displayInit();
@@ -110,3 +112,7 @@ void loop() {
     if (changed) printf("Hello! ");
   }
 }
+
+
+
+
