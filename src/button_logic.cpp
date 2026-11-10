@@ -5,7 +5,8 @@
 // Colors: 
 uint32_t color = 65000;
 // Hue -> 0 = White, Hue -> 255 = True Color
-uint32_t hue = 255;
+uint32_t hue = 0;
+uint32_t hue_2 = 255;
 uint32_t brightness = 40;
 
 uint32_t color_2 = 10000;

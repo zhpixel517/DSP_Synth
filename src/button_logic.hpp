@@ -8,6 +8,7 @@ extern uint32_t color;
 extern uint32_t color_2;
 extern uint32_t brightness;
 extern uint32_t hue;
+extern uint32_t hue_2;
 
 #define Y_DIM 4 //number of rows of key
 #define X_DIM 8 //number of columns of keys

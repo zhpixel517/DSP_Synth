@@ -16,7 +16,7 @@ enum Machine_State {
 TrellisCallback blink(keyEvent evt) {
   Serial.println(evt.bit.NUM);
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(color_2, hue, brightness));
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(65000), hue_2, brightness));
     trellis.show();
   }
   return 0;
