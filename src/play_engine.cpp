@@ -110,7 +110,6 @@ void PlayEngine::applyPitch() {
 //   PlayEngine::setSongSpeed(ratio);                                  // songs
 }
 
-
 void PlayEngine::handlePitchUp(DebouncedButton* button) {
 
   int pitchesCount = sizeof(buttonFrequencies) / sizeof(buttonFrequencies[0]); 

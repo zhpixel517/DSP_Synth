@@ -1,7 +1,9 @@
 #include "button_logic.hpp"
+#include "event_queue.hpp"
 #include "header.hpp"
 
 static PlayEngine playEngine = PlayEngine();
+static EventQueue eventQueue = EventQueue();
 
 // enum Machine_State {
 //   Main_Menu = 0,
