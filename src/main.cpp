@@ -3,20 +3,19 @@
 
 static PlayEngine playEngine = PlayEngine();
 
-enum Machine_State {
-  Main_Menu = 0,
-  SD_Select_Menu = 1,
-  Piano_Mode = 2,
-  Beat_Maker = 3,
-  Cut_Songs = 4,
-  Tool_Menu = 5
-
-};
+// enum Machine_State {
+//   Main_Menu = 0,
+//   SD_Select_Menu = 1,
+//   Piano_Mode = 2,
+//   Beat_Maker = 3,
+//   Cut_Songs = 4,
+//   Tool_Menu = 5
+// };
 
 TrellisCallback blink(keyEvent evt) {
   Serial.println(evt.bit.NUM);
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(65000), hue_2, brightness));
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(10000), hue_2, brightness));
     trellis.show();
   }
   return 0;
@@ -29,12 +28,12 @@ void setup() {
   trellis.begin();
 
   for (int y = 0; y < Y_DIM; y++) {
-  for (int x = 0; x < X_DIM; x++) {
-    trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
-    trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
-    trellis.registerCallback(x, y, blink);
+    for (int x = 0; x < X_DIM; x++) {
+      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
+      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
+      trellis.registerCallback(x, y, blink);
+    }
   }
-}
 
   displayInit();
   playEngine.audioInit();

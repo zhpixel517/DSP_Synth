@@ -17,7 +17,6 @@ uint32_t color_2 = 10000;
 //create a matrix of trellis panels
 Adafruit_NeoTrellis t_array[Y_DIM/4][X_DIM/4] = {
   { Adafruit_NeoTrellis(LED_ARRAY_1), Adafruit_NeoTrellis(LED_ARRAY_2) }
-
 };
 
 // Init class for trellis lighting
