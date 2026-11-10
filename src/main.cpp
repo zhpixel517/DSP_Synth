@@ -1,7 +1,9 @@
 #include "button_logic.hpp"
+#include "event_queue.hpp"
 #include "header.hpp"
 
 static PlayEngine playEngine = PlayEngine();
+static EventQueue eventQueue = EventQueue();
 
 enum Machine_State {
   Main_Menu = 0,
@@ -29,12 +31,12 @@ void setup() {
   trellis.begin();
 
   for (int y = 0; y < Y_DIM; y++) {
-  for (int x = 0; x < X_DIM; x++) {
-    trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
-    trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
-    trellis.registerCallback(x, y, blink);
+    for (int x = 0; x < X_DIM; x++) {
+      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
+      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
+      trellis.registerCallback(x, y, blink);
+    }
   }
-}
 
   displayInit();
   playEngine.audioInit();
