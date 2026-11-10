@@ -1,4 +1,3 @@
-#include "config.hpp"
 #include "header.hpp"
 
 UIState currentUIState = STATE_SYNTH;

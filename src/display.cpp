@@ -1,4 +1,3 @@
-#include "config.hpp"
 #include "header.hpp"
 
 static lv_obj_t * label;

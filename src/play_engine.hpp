@@ -29,8 +29,8 @@ class PlayEngine {
     public:
         PlayEngine();
 
-        void handlePitchUp(DebouncedButton* button);
-        void handlePitchDown(DebouncedButton* button);
+        void handlePitchUp(DebouncedButton* button); // transpose up 1 octave
+        void handlePitchDown(DebouncedButton* button); // transpose down 1 octave
 
         void audioInit();
         void setKeyFrequency(int key, float freq);

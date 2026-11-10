@@ -27,7 +27,7 @@ const int MAX_FILES = 100;
 #define TFT_RST  6
 #define TFT_MOSI 11
 #define TFT_CLK  13
-#define TFT_MISO -1
+#define TFT_MISO -1 // not used
 
 static const uint32_t W = 320, H = 240;
 
@@ -58,10 +58,13 @@ extern Encoder volumeControl;
 extern long oldPosition;
 extern float currentVolume;
 
-extern Button_Sound buttonFrequencies[NUM_KEYS];
+extern Button_Sound buttons[NUM_KEYS];
+extern int pitchSteps;
 extern DebouncedButton pitchUpBtn;
 extern DebouncedButton pitchDownBtn;
 
 extern Adafruit_ILI9341 tft;
 extern uint16_t buf1[W * 20];
 extern uint16_t buf2[W * 20];
+
+extern Button_Sound buttonFrequencies[NUM_KEYS];

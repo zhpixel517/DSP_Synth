@@ -1,5 +1,6 @@
 #include "header.hpp"
 #include <play_engine.hpp>
+#include "config.hpp"
 
 PlayEngine::PlayEngine() {
     // Left: sines 0-3, 4-7, 8-11, 12

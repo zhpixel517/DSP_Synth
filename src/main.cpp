@@ -1,15 +1,40 @@
-#include "buttonLogic.hpp"
+#include "button_logic.hpp"
 #include "header.hpp"
-#include <config.hpp>
 
 static PlayEngine playEngine = PlayEngine();
+
+enum Machine_State {
+  Main_Menu = 0,
+  SD_Select_Menu = 1,
+  Piano_Mode = 2,
+  Beat_Maker = 3,
+  Cut_Songs = 4,
+  Tool_Menu = 5
+
+};
+
+TrellisCallback blink(keyEvent evt) {
+  Serial.println(evt.bit.NUM);
+  if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(color_2, hue, brightness));
+    trellis.show();
+  }
+  return 0;
+}
 
 void setup() {
   Serial.begin(115200);
   
+  // Init lighting on button pad
   trellis.begin();
-  basic_lighting();
-  trellis.show();
+
+  for (int y = 0; y < Y_DIM; y++) {
+  for (int x = 0; x < X_DIM; x++) {
+    trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
+    trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
+    trellis.registerCallback(x, y, blink);
+  }
+}
 
   displayInit();
   playEngine.audioInit();
@@ -26,9 +51,13 @@ void setup() {
   pinMode(pitch_down, INPUT_PULLUP);
 
   oldPosition = volumeControl.read();  
+
+  basic_lighting();
+  trellis.show();
 }
 
 void loop() {
+  trellis.read();
   displayUpdate();
   displayAll();
 
@@ -115,7 +144,3 @@ void loop() {
     if (changed) printf("Hello! ");
   }
 }
-
-
-
-
