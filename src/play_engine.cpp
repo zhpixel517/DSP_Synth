@@ -1,5 +1,6 @@
 #include "header.hpp"
-#include <play_engine.hpp>
+#include "event_queue.hpp"
+#include "play_engine.hpp"
 #include "config.hpp"
 
 PlayEngine::PlayEngine() {
@@ -127,5 +128,22 @@ void PlayEngine::handlePitchDown(DebouncedButton* button) {
     pitchStepCounter--;
     applyPitch();
   }
+}
 
+void PlayEngine::handleKeyEvents(EventQueue& event_queue) {
+  while(event_queue.empty() != true) {
+    Event e;
+    bool consumed = event_queue.consume_once(e);
+    if(!consumed) {Serial.println("handleKeyEvents: consume_once returned false");}
+
+    switch(e.kind) {
+      case EventType::NotePress:
+        setKeyAmplitude(e.id, e.value * buttonFrequencies[e.id].amplitude);
+      case EventType::EncoderUpdate:
+        break; // todo
+      case EventType::EventQueueError:
+        Serial.println("key event error");
+        break;
+    }
+  }
 }

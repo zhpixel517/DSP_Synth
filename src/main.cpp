@@ -14,28 +14,11 @@ static EventQueue eventQueue = EventQueue();
 //   Tool_Menu = 5
 // };
 
-TrellisCallback blink(keyEvent evt) {
-  Serial.println(evt.bit.NUM);
-  if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(10000), hue_2, brightness));
-    trellis.show();
-  }
-  return 0;
-}
 
 void setup() {
   Serial.begin(115200);
-  
-  // Init lighting on button pad
-  trellis.begin();
 
-  for (int y = 0; y < Y_DIM; y++) {
-    for (int x = 0; x < X_DIM; x++) {
-      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
-      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
-      trellis.registerCallback(x, y, blink);
-    }
-  }
+  init_trellis_keys(eventQueue);
 
   displayInit();
   playEngine.audioInit();
@@ -52,9 +35,6 @@ void setup() {
   pinMode(pitch_down, INPUT_PULLUP);
 
   oldPosition = volumeControl.read();  
-
-  basic_lighting();
-  trellis.show();
 }
 
 void loop() {

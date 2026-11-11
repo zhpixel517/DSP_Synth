@@ -17,7 +17,7 @@ Encoder volumeControl(encoder_A, encoder_B);
 long oldPosition = -999;
 float currentVolume = 0.0;
 
-Button_Sound buttonFrequencies[NUM_KEYS] = {
+Button_Sound buttonFrequencies[NUM_KEYS] = { // TODO: refactor to trellis button id / tone map
   {33, 262, 0.7}, // C
   {38, 277, 0.7}, // C#
   {35, 294, 0.7}, // D

@@ -1,5 +1,6 @@
 #pragma once
 #include "header.hpp"
+#include "event_queue.hpp"
 
 #define GRANULAR_MEMORY_SIZE 12800
 
@@ -40,5 +41,7 @@ class PlayEngine {
         void setSongSpeed(float ratio);
         void playFile(const char* name);
         void applyPitch();
+
+        void handleKeyEvents(EventQueue& event_queue);
 };
 

@@ -1,6 +1,9 @@
 #include "header.hpp"
 #include <cstdint>
 #include "button_logic.hpp"
+#include "event_queue.hpp"
+
+static EventQueue* event_queue_ptr = nullptr;
 
 // Colors: 
 uint32_t color = 65000;
@@ -29,6 +32,40 @@ void basic_lighting() {
   }
     trellis.show();
 }
+
+TrellisCallback on_trellis_key_event(keyEvent evt) {
+  Serial.println(evt.bit.NUM);
+  if (event_queue_ptr == nullptr) {
+    Serial.println("ERR: Event queue in the button logic layer is uninitialized, call init_event_queue first\n");
+    return 0;
+  }
+  if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_FALLING) {
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(10000), hue_2, brightness));
+    trellis.show();
+    Event e {EventType::NotePress, evt.bit.NUM, 1};
+    event_queue_ptr->push(e); // so clean
+  }
+  return 0;
+}
+
+void init_trellis_keys(EventQueue& queue_ptr) {
+  event_queue_ptr = &queue_ptr; // dependency injection
+
+  // Init lighting on button pad
+  trellis.begin();
+
+  for (int y = 0; y < Y_DIM; y++) {
+    for (int x = 0; x < X_DIM; x++) {
+      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_RISING, true);
+      trellis.activateKey(x, y, SEESAW_KEYPAD_EDGE_FALLING, true);
+      trellis.registerCallback(x, y, on_trellis_key_event);
+    }
+  }
+
+  basic_lighting();
+  trellis.show();
+}
+
 
 // trellis.begin() -> Init
 // trellis.setPixelColor(i, color) -> Color change

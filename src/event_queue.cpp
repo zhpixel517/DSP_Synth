@@ -1,40 +1,36 @@
 #include <array>
 #include "event_queue.hpp"
-#include <cstdint>
-using std::array;
 
 EventQueue::EventQueue() {}
 
-bool EventQueue::push(Event event) {
-    if (!full()) _event_buffer[write_index] = event;
-    write_index++;
+bool EventQueue::push(Event event)
+{
+    if (!full())
+    {
+        _event_buffer[_write_index] = event;
+        _write_index = next_index_write();
+        return true;
+    }
+    sample_overflow_count++;
+    return false;
 }
 
-Event EventQueue::consume_once() {
-    Event event; 
-    if (!empty()) event = _event_buffer[read_index];
-    read_index++;
-    return event;
+bool EventQueue::consume_once(Event &out)
+{
+    if (!empty())
+    {
+        out = _event_buffer[_read_index];
+        _read_index = next_index_read();
+        return true;
+    }
+    else
+    {
+        out = Event {
+            .kind = EventType::EventQueueError,
+            .id = -1,
+            .value = -1,
+        };
+        return false;
+    }
 }
 
-uint8_t EventQueue::length() {
-    return _event_buffer.size();
-}
-
-bool EventQueue::has_event() {
-        return !(_event_buffer.empty());
-}
-
-
-
-// class EventQueue {
-
-//     void push(Event event);
-
-    
-
-    
-
-//     private:
-//         std::array<Event, 16> _buffer;
-// };
