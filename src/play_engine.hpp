@@ -6,7 +6,7 @@
 
 class PlayEngine {
     private:
-        AudioSynthWaveformSine sine[NUM_KEYS];
+        AudioSynthWaveform sine[NUM_KEYS];
 
         AudioMixer4 leftMixer1, leftMixer2, leftMixer3, leftMixer4;
         AudioMixer4 rightMixer1, rightMixer2, rightMixer3, rightMixer4;
@@ -41,6 +41,7 @@ class PlayEngine {
         void setSongSpeed(float ratio);
         void playFile(const char* name);
         void applyPitch();
+        void setWaveform(int type);
 
         void handleKeyEvents(EventQueue& event_queue);
 };

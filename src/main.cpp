@@ -14,7 +14,6 @@ static EventQueue eventQueue = EventQueue();
 //   Tool_Menu = 5
 // };
 
-
 void setup() {
   Serial.begin(115200);
 
@@ -44,6 +43,7 @@ void loop() {
 
   playEngine.handlePitchUp(&pitchUpBtn);
   playEngine.handlePitchDown(&pitchDownBtn);
+  playEngine.handleKeyEvents(eventQueue);
 
   // Switch between SD mode and SYNTH mode
   int switchRead = digitalRead(switch_button);
@@ -84,13 +84,6 @@ void loop() {
 
   // SYNTH logic with volume control
   if (currentUIState == STATE_SYNTH) {
-    for (int i = 0; i < NUM_KEYS; i++) {
-      if (digitalRead(buttonFrequencies[i].pin) == LOW) {
-        playEngine.setKeyAmplitude(i, buttonFrequencies[i].amplitude);
-      } else {
-        playEngine.setKeyAmplitude(i, 0.0);
-      }
-    }
     long newPosition = volumeControl.read();
 
     if (newPosition != oldPosition) {
@@ -125,3 +118,66 @@ void loop() {
     if (changed) printf("Hello! ");
   }
 }
+
+
+
+
+
+
+// #include <Arduino.h>
+// #include <Audio.h>
+
+// #define CHORUS_DELAY_LENGTH (16 * AUDIO_BLOCK_SAMPLES)
+// short chorusDelayLine[CHORUS_DELAY_LENGTH];
+
+// AudioSynthWaveform      osc1, osc2, osc3;
+// AudioMixer4             mixer;
+// AudioFilterStateVariable filter;
+// AudioEffectEnvelope     env;
+// AudioEffectChorus       chorus;
+// AudioEffectFreeverb     reverb;
+// AudioOutputMQS          mqs;
+
+// AudioConnection c1(osc1, 0, mixer, 0);
+// AudioConnection c2(osc2, 0, mixer, 1);
+// AudioConnection c3(osc3, 0, mixer, 2);
+// AudioConnection c4(mixer, 0, filter, 0);
+// AudioConnection c5(filter, 0, env, 0);       // output 0 = low-pass
+// AudioConnection c6(env, 0, chorus, 0);
+// AudioConnection c7(chorus, 0, reverb, 0);
+// AudioConnection c8(reverb, 0, mqs, 0);
+// AudioConnection c9(reverb, 0, mqs, 1);
+
+// const float NOTE = 261.63f;  // C4; try 523.25f for C5
+
+// void setup() {
+//   AudioMemory(40);
+
+//   osc1.begin(0.3f, NOTE,           WAVEFORM_SAWTOOTH);
+//   osc2.begin(0.3f, NOTE * 1.003f,  WAVEFORM_SAWTOOTH);  // ~+5 cents
+//   osc3.begin(0.3f, NOTE * 0.997f,  WAVEFORM_SAWTOOTH);  // ~-5 cents
+
+//   mixer.gain(0, 0.33f);
+//   mixer.gain(1, 0.33f);
+//   mixer.gain(2, 0.33f);
+
+//   filter.frequency(4500);
+//   filter.resonance(0.7f);
+
+//   env.attack(300);
+//   env.decay(0);
+//   env.sustain(1.0f);
+//   env.release(1500);
+
+//   chorus.begin(chorusDelayLine, CHORUS_DELAY_LENGTH, 2);
+
+//   reverb.roomsize(0.8f);
+//   reverb.damping(0.5f);
+// }
+
+// void loop() {
+//   env.noteOn();
+//   delay(3000);
+//   env.noteOff();
+//   delay(2000);
+// }

@@ -27,10 +27,10 @@ Button_Sound buttonFrequencies[NUM_KEYS] = { // TODO: refactor to trellis button
   {36, 370, 0.7}, // F#
   {41, 392, 0.7}, // G
   {40, 415, 0.7}, // G#
-  {22, 440, 0.1}, // A
-  {43, 466, 0.1}, // A#
-  {14, 494, 0.1}, // B
-  {17, 523, 0.1}  // C
+  {22, 440, 0.7}, // A
+  {43, 466, 0.7}, // A#
+  {14, 494, 0.7}, // B
+  {17, 523, 0.7}  // C
 };
 
 DebouncedButton pitchUpBtn(pitch_up);
