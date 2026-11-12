@@ -35,13 +35,15 @@ void basic_lighting() {
 
 TrellisCallback on_trellis_key_event(keyEvent evt) {
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(10000), hue_2, brightness));
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(1000000), hue_2, brightness));
     trellis.show();
     Event e {EventType::NotePress, evt.bit.NUM, 1};
     event_queue_ptr->push(e); // so clean
   } else if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_FALLING) {
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(color, hue, brightness));
+    trellis.show();
     (void)event_queue_ptr->push(Event{EventType::NotePress, (int8_t)evt.bit.NUM, 0});
-  }
+  } 
   return 0;
 }
 

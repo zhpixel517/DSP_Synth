@@ -61,6 +61,7 @@ PlayEngine::PlayEngine() {
 void PlayEngine::audioInit() {
   AudioMemory(50);
 
+  // Added (:
   AudioMixer4* L[4] = {&leftMixer1, &leftMixer2, &leftMixer3, &leftMixer4};
   AudioMixer4* R[4] = {&rightMixer1, &rightMixer2, &rightMixer3, &rightMixer4};
 
@@ -178,9 +179,6 @@ void PlayEngine::handleKeyEvents(EventQueue& event_queue) {
         break;
       case EventType::EncoderUpdate:
         break; // todo
-      case EventType::EventQueueError:
-        Serial.println("key event error");
-        break;
     }
   }
 }
