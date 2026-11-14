@@ -33,6 +33,7 @@ void displayInit() {
 
   label = lv_label_create(screen);  
   volumeBar = lv_bar_create(screen);
+  
 
   lv_label_set_text(label, "VOLUME");
   lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, -35);

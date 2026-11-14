@@ -7,12 +7,12 @@ static EventQueue* event_queue_ptr = nullptr;
 
 // Colors: 
 uint32_t color = 65000;
+uint32_t color_2 = 10000;
 // Hue -> 0 = White, Hue -> 255 = True Color
 uint32_t hue = 0;
 uint32_t hue_2 = 255;
-uint32_t brightness = 40;
-
-uint32_t color_2 = 10000;
+uint32_t brightness = 1;
+uint32_t brightness_2 = 40;
 
 #define LED_ARRAY_1 0x2E
 #define LED_ARRAY_2 0x2F // short-circuit soldered pin A0
@@ -35,7 +35,7 @@ void basic_lighting() {
 
 TrellisCallback on_trellis_key_event(keyEvent evt) {
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(1000000), hue_2, brightness));
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(1000000), hue_2, brightness_2));
     trellis.show();
     Event e {EventType::NotePress, evt.bit.NUM, 1};
     event_queue_ptr->push(e); // so clean

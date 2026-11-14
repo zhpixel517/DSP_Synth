@@ -8,6 +8,7 @@ extern Adafruit_MultiTrellis trellis;
 extern uint32_t color;
 extern uint32_t color_2;
 extern uint32_t brightness;
+extern uint32_t brightness_2;
 extern uint32_t hue;
 extern uint32_t hue_2;
 
