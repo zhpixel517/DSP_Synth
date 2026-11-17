@@ -44,8 +44,7 @@ void loop() {
   playEngine.handlePitchUp(&pitchUpBtn);
   playEngine.handlePitchDown(&pitchDownBtn);
   
-  // Added (:
-  playEngine.handleKeyEvents(eventQueue);
+  handleKeyEvents(eventQueue, playEngine);
 
 //   // Switch between SD mode and SYNTH mode
 //   int switchRead = digitalRead(switch_button);

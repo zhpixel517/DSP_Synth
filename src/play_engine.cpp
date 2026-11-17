@@ -61,7 +61,6 @@ PlayEngine::PlayEngine() {
 void PlayEngine::audioInit() {
   AudioMemory(50);
 
-  // Added (:
   AudioMixer4* L[4] = {&leftMixer1, &leftMixer2, &leftMixer3, &leftMixer4};
   AudioMixer4* R[4] = {&rightMixer1, &rightMixer2, &rightMixer3, &rightMixer4};
 
@@ -168,17 +167,17 @@ void PlayEngine::handlePitchDown(DebouncedButton* button) {
   }
 }
 
-void PlayEngine::handleKeyEvents(EventQueue& event_queue) {
-  Event e;
-  while (event_queue.consume_once(e)) {
-    switch (e.kind) {
-      case EventType::NotePress:
-        if (e.id >= 0 && e.id < NUM_KEYS) {
-          setKeyAmplitude(e.id, e.value * buttonFrequencies[e.id].amplitude);
-        }
-        break;
-      case EventType::EncoderUpdate:
-        break; // todo
-    }
-  }
-}
+// void PlayEngine::handleKeyEvents(EventQueue& event_queue, PlayEngine playEngine) {
+//   Event e;
+//   while (event_queue.consume_once(e)) {
+//     switch (e.kind) {
+//       case EventType::NotePress:
+//         if (e.id >= 0 && e.id < NUM_KEYS) {
+//           setKeyAmplitude(e.id, e.value * buttonFrequencies[e.id].amplitude);
+//         }
+//         break;
+//       case EventType::EncoderUpdate:
+//         break; // todo
+//     }
+//   }
+// }

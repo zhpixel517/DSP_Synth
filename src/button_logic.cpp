@@ -3,7 +3,28 @@
 #include "button_logic.hpp"
 #include "event_queue.hpp"
 
-static EventQueue* event_queue_ptr = nullptr;
+// button action mappings
+
+ButtonSound idToNoteMap[NUM_NOTE_KEYS] = { // TODO: refactor to trellis button id / tone map
+  {33, 262, 0.7}, // C
+  {38, 277, 0.7}, // C#
+  {35, 294, 0.7}, // D
+  {37, 311, 0.7}, // D#
+  {34, 330, 0.7}, // E
+  {39, 349, 0.7}, // F
+  {36, 370, 0.7}, // F#
+  {41, 392, 0.7}, // G
+  {40, 415, 0.7}, // G#
+  {22, 440, 0.7}, // A
+  {43, 466, 0.7}, // A#
+  {14, 494, 0.7}, // B
+  {17, 523, 0.7}  // C
+};
+
+(void*) keyIdToActionMap[NUM_KEYS] = {
+};
+
+// ========= TRELLIS KEYPAD CONFIG ==========
 
 // Colors: 
 uint32_t color = 65000;
@@ -33,21 +54,6 @@ void basic_lighting() {
     trellis.show();
 }
 
-TrellisCallback on_trellis_key_event(keyEvent evt) {
-  if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(1000000), hue_2, brightness_2));
-    trellis.show();
-    Event e {EventType::NotePress, evt.bit.NUM, 1};
-    event_queue_ptr->push(e); // so clean
-  } else if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_FALLING) {
-    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(color, hue, brightness));
-    trellis.show();
-    (void)event_queue_ptr->push(Event{EventType::NotePress, (int8_t)evt.bit.NUM, 0});
-  } 
-  return 0;
-}
-
-
 void init_trellis_keys(EventQueue& queue_ptr) {
   event_queue_ptr = &queue_ptr; // dependency injection
 
@@ -66,6 +72,42 @@ void init_trellis_keys(EventQueue& queue_ptr) {
   trellis.show();
 }
 
+TrellisCallback on_trellis_key_event(keyEvent evt) {
+  if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(1000000), hue_2, brightness_2));
+    trellis.show();
+    Event e {EventType::NotePress, evt.bit.NUM, 1};
+    event_queue_ptr->push(e); // so clean
+  } else if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_FALLING) {
+    trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(color, hue, brightness));
+    trellis.show();
+    (void)event_queue_ptr->push(Event{EventType::NotePress, (int8_t)evt.bit.NUM, 0});
+  } 
+  return 0;
+}
+
+// ========= EVENT HANDLING ==========
+
+static EventQueue* event_queue_ptr = nullptr;
+
+void handleKeyEvents(EventQueue& event_queue, PlayEngine& playEngine) {
+  Event e;
+  while (event_queue.consume_once(e)) {
+    // buttonActionMap[e.id]();
+    switch (e.kind) {
+      case EventType::NotePress:
+        // playNote(e.id);
+        // if (e.id >= 0 && e.id < NUM_KEYS) {
+        //   setKeyAmplitude(e.id, e.value * buttonFrequencies[e.id].amplitude);
+        // }
+        break;
+      case EventType::EncoderUpdate:
+        break; // todo
+      case EventType::GenericButton:
+       // functionMap[e.id]();
+    }
+  }
+}
 
 // trellis.begin() -> Init
 // trellis.setPixelColor(i, color) -> Color change

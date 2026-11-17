@@ -34,11 +34,11 @@ static const uint32_t W = 320, H = 240;
 // Types
 enum UIState {STATE_SYNTH, STATE_SD_MENU};
 
-struct Button_Sound {
-  int pin;
-  int frequency;
-  float amplitude;
-};
+// struct ButtonSound {
+//   int pin;
+//   int frequency;
+//   float amplitude;
+// };
 
 // Variables defined in config.cpp
 extern UIState currentUIState;
@@ -58,7 +58,7 @@ extern Encoder volumeControl;
 extern long oldPosition;
 extern float currentVolume;
 
-extern Button_Sound buttons[NUM_KEYS];
+extern ButtonSound buttons[NUM_KEYS];
 extern int pitchSteps;
 extern DebouncedButton pitchUpBtn;
 extern DebouncedButton pitchDownBtn;
@@ -67,4 +67,4 @@ extern Adafruit_ILI9341 tft;
 extern uint16_t buf1[W * 20];
 extern uint16_t buf2[W * 20];
 
-extern Button_Sound buttonFrequencies[NUM_KEYS];
+extern ButtonSound buttonFrequencies[NUM_KEYS];

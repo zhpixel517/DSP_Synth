@@ -8,6 +8,7 @@
 enum class EventType {
     NotePress, // an LED note key pad was pressed
     EncoderUpdate, // an encoder was rotated
+    GenericButton, // a button was pressed, not an encoder nor a note, but just a button that controls a setting
     EventQueueError
 };
 
