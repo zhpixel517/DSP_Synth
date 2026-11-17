@@ -7,3 +7,4 @@ with open("/Users/rjrae/output.raw", "rb") as file:
 hex_array = [f"0x{int.from_bytes(data[i:i+2], "little", signed = True) & 0xFFFF:04X}" for i in range(0, len(data), 2)]
 
 print(hex_array)
+

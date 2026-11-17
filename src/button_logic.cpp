@@ -11,7 +11,7 @@ uint32_t color_2 = 10000;
 // Hue -> 0 = White, Hue -> 255 = True Color
 uint32_t hue = 0;
 uint32_t hue_2 = 255;
-uint32_t brightness = 1;
+uint32_t brightness = 40;
 uint32_t brightness_2 = 40;
 
 #define LED_ARRAY_1 0x2E
@@ -34,6 +34,7 @@ void basic_lighting() {
 }
 
 TrellisCallback on_trellis_key_event(keyEvent evt) {
+  Serial.println(evt.bit.NUM);
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
     trellis.setPixelColor(evt.bit.NUM, Adafruit_NeoPixel::ColorHSV(random(1000000), hue_2, brightness_2));
     trellis.show();
